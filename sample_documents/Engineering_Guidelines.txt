@@ -1,0 +1,18 @@
+# GlobalTech Innovations - Engineering Guidelines
+
+## 1. Version Control
+We use Git for version control. All active development must happen on feature branches branched off from `main`. Branch names should follow the format `feature/ticket-number-description` or `bugfix/ticket-number-description`. Commits must be squashed before merging into `main`.
+
+## 2. CI/CD Pipeline
+Our deployment pipeline is fully automated using GitHub Actions. Any code merged into `main` is automatically deployed to the Staging environment. Production deployments happen every Tuesday and Thursday at 10:00 AM UTC and require manual approval from a Lead Engineer.
+
+## 3. Code Reviews
+All pull requests require at least two approvals before they can be merged. Code reviewers should focus on readability, performance, security, and test coverage. A pull request must not be approved if the test coverage drops below 85%.
+
+## 4. Incident Management
+In the event of a Severity 1 (Sev-1) incident, the on-call engineer must immediately create a bridge in Slack (#incidents-active) and page the Incident Commander using PagerDuty. A post-mortem document must be completed within 48 hours of the incident resolution.
+
+## 5. Security Practices
+- Never hardcode secrets or API keys in the source code.
+- Always use the centralized Secrets Manager.
+- All external user input must be sanitized and validated before processing to prevent injection attacks.

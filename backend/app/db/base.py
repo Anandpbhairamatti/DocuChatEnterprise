@@ -1,0 +1,11 @@
+from app.db.base_class import Base  # noqa
+from app.models.department import Department  # noqa
+from app.models.user import User  # noqa
+from app.models.document import Document  # noqa
+from app.models.document_chunk import DocumentChunk  # noqa
+from app.models.chat import Chat  # noqa
+from app.models.message import Message  # noqa
+from app.models.ai_log import AILog # noqa
+from app.models.audit_log import AuditLog # noqa
+from app.models.system_alert import SystemAlert # noqa
+from app.models.otp import OTPVerification # noqa

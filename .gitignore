@@ -1,0 +1,36 @@
+# Environment Variables
+.env
+.env.local
+.env.*
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+backend/venv/
+venv/
+ENV/
+env/
+.pytest_cache/
+.coverage
+
+# Database / Storage
+backend/.storage/
+backend/chroma/
+*.sqlite3
+*.db
+
+# Node
+node_modules/
+frontend/node_modules/
+npm-debug.log
+yarn-error.log
+dist/
+frontend/dist/
+build/
+
+# OS Files
+.DS_Store
+Thumbs.db
