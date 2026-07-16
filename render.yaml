@@ -67,3 +67,4 @@ services:
     region: ohio
     plan: free # Render offers a free redis tier for temporary cache
     maxmemoryPolicy: noeviction
+    ipAllowList: [] # Empty array restricts access to internal services only
