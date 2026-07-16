@@ -1,0 +1,69 @@
+services:
+  # The FastAPI Web Server
+  - type: web
+    name: docuchat-api
+    env: docker
+    dockerfilePath: ./backend/Dockerfile
+    region: ohio
+    plan: starter # Paid plan required for disks
+    healthCheckPath: /api/v1/health # assuming health endpoint exists
+    disk:
+      name: docuchat-storage
+      mountPath: /app/.storage
+      sizeGB: 10
+    envVars:
+      - key: PORT
+        value: 8000
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: docuchat-redis
+          property: connectionString
+      - key: CELERY_BROKER_URL
+        fromService:
+          type: redis
+          name: docuchat-redis
+          property: connectionString
+      - key: CELERY_RESULT_BACKEND
+        fromService:
+          type: redis
+          name: docuchat-redis
+          property: connectionString
+      # Add other environment variables (DB, GROQ, SMTP, etc.) directly in Render Dashboard
+
+  # The Celery Worker
+  - type: worker
+    name: docuchat-worker
+    env: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerCommand: "celery -A app.worker.celery_app worker --loglevel=info --concurrency=2"
+    region: ohio
+    plan: starter
+    disk:
+      name: docuchat-storage-worker
+      mountPath: /app/.storage
+      sizeGB: 10
+    envVars:
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: docuchat-redis
+          property: connectionString
+      - key: CELERY_BROKER_URL
+        fromService:
+          type: redis
+          name: docuchat-redis
+          property: connectionString
+      - key: CELERY_RESULT_BACKEND
+        fromService:
+          type: redis
+          name: docuchat-redis
+          property: connectionString
+      # Ensure you copy identical env vars (DB, GROQ, etc) here as well in the Render Dashboard
+
+  # Redis for Celery Broker
+  - type: redis
+    name: docuchat-redis
+    region: ohio
+    plan: free # Render offers a free redis tier for temporary cache
+    maxmemoryPolicy: noeviction
