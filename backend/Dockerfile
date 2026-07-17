@@ -21,5 +21,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the application
 COPY . .
 
-# Expose port (Render sets PORT env variable)
+# Expose port (Railway sets PORT env variable)
 EXPOSE 8000
+
+# Default command: start the FastAPI web server
+# The Celery worker service overrides this via Railway dashboard start command
+CMD ["sh", "-c", "uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}"]

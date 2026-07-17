@@ -5,6 +5,14 @@ from app.services.health_service import health_service
 
 router = APIRouter()
 
+@router.get("/ping")
+def ping():
+    """
+    Simple liveness check - no DB dependency.
+    Used by Railway/load balancer healthchecks.
+    """
+    return {"status": "ok"}
+
 @router.get("/")
 def get_health(db: Session = Depends(dependencies.get_db)):
     """
